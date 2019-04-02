@@ -1,0 +1,108 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Inventory</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 0.7.4-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.7.4/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'js/admin.css' %}">
+</head>
+
+<body>
+
+    <!-- START NAV -->
+    <nav class="navbar is-white">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item brand-text" href="../"> Administrator </a>
+                <div class="navbar-burger burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="admin.html"> Home </a>
+                    <a class="navbar-item" href="admin.html"> Pengaturan </a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                        <a href="{% url 'logout' %}" class="button has-background-link has-text-white">
+                            <strong>Logout</strong>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAV -->
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3 ">
+                <aside class="menu is-hidden-mobile">
+                    <p class="menu-label">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        {% url 'dashboard' as dashboard_url %}
+                        {% url 'barang' as barang_url %}
+                        <li><a href="{% url 'dashboard' %}" {% if request.path == dashboard_url %}class="is-active"{% endif %}>Dashboard</a></li>
+                        <li><a href="{% url 'barang' %}" {% if request.path == barang_url %}class="is-active"{% endif %}>Daftar Barang</a></li>
+                    </ul>
+                    <p class="menu-label">
+                        Administration
+                    </p>
+                    <ul class="menu-list">
+                        {% url 'entri_barang' as entri_barang_url %}
+                        <li><a href="{% url 'entri_barang' %}" {% if request.path == entri_barang_url %}class="is-active"{% endif %}>Entri Data Barang</a></li>
+                        <!--
+                        <li>
+                            <a>Manage Your Team</a>
+                            <ul>
+                                <li><a>Members</a></li>
+                                <li><a>Plugins</a></li>
+                                <li><a>Add a member</a></li>
+                            </ul>
+                        </li>
+                        -->
+                        <li><a>Entri Peminjaman Barang</a></li>
+                    </ul>
+                    <p class="menu-label">
+                        Generate Laporan
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>Data Barang</a></li>
+                        <li><a>Peminjaman Barang</a></li>
+                    </ul>
+                </aside>
+            </div>
+            <div class="column is-9">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <!--
+                    <ul>
+                        <li><a href="../">Bulma</a></li>
+                        <li><a href="../">Templates</a></li>
+                        <li><a href="../">Examples</a></li>
+                        <li class="is-active"><a href="#" aria-current="page">Admin</a></li>
+                    </ul>
+                        -->
+    </nav>
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+{% render_bundle 'main' %}
+</html>

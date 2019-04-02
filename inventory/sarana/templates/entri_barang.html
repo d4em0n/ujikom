@@ -1,0 +1,93 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<form method="post" action="{% url 'entri_barang' %}" id="form-entri-barang">
+{% csrf_token %}
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+        Entri Data Barang
+    </p>
+    <a href="#" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <!--
+  {{ from.as_p }}
+  -->
+  <div class="card-content">
+    <div class="content">
+            <div class="field">
+            <label class="label">Nama Barang</label>
+            <div class="control">
+                <input class="input" type="text" id="{{ form.nama_barang.id_for_label }}" name="{{ form.nama_barang.html_name }}" placeholder="Barang">
+            </div>
+            </div>
+
+            <div class="field">
+            <label class="label">Spesifikasi/Merk</label>
+            <div class="control">
+                <input class="input" type="text" id="{{ form.spesifikasi.id_for_label }}" name="{{ form.spesifikasi.html_name }}" placeholder="Spesifikasi/Merk">
+            </div>
+            </div>
+
+            <div class="field">
+            <label class="label">Lokasi</label>
+            <div class="control">
+                <input class="input" type="text" id="{{ form.lokasi.id_for_label }}" name="{{ form.lokasi.html_name }}" placeholder="Lokasi">
+            </div>
+            </div>
+
+            <div class="field">
+            <label class="label">Sumber Dana</label>
+            <div class="control">
+                <input class="input" type="text" id="{{ form.sumber_dana.id_for_label }}" name="{{ form.sumber_dana.html_name }}" placeholder="Sumber">
+            </div>
+            </div>
+
+            <div class="field">
+            <label class="label">Jumlah Barang</label>
+            <div class="control">
+                <input class="input" type="number" id="{{ form.jumlah_barang.id_for_label }}" name="{{ form.jumlah_barang.html_name }}" placeholder="1" min="1">
+            </div>
+            </div>
+
+            <div class="field">
+            <label class="label">Kondisi</label>
+            <div class="control">
+                <div class="select">
+                <select id="{{ form.kondisi.id_for_label }}" name="{{ form.kondisi.html_name }}">
+                    <option value="A">Baik</option>
+                    <option value="B">Kurang baik berfungsi</option>
+                    <option value="C">Rusak</option>
+                </select>
+                </div>
+            </div>
+            </div>
+<!--
+            <div class="field">
+            <label class="label">Keterangan</label>
+            <div class="control">
+                <textarea class="textarea" placeholder="Keterangan"></textarea>
+            </div>
+            </div>
+-->
+            <div class="field">
+            <div class="control">
+                <label class="checkbox">
+                <input type="checkbox">
+                Konfirmasi jika data diatas sudah benar
+                </label>
+            </div>
+            </div>
+
+    </div>
+  </div>
+  <footer class="card-footer">
+    <a onclick="document.getElementById('form-entri-barang').submit()" href="#" class="card-footer-item has-background-success has-text-white">Simpan</a>
+    <a href="#" class="card-footer-item has-background-danger has-text-white">Batalkan</a>
+  </footer>
+</div>
+</form>
+{% endblock %}
