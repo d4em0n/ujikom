@@ -52,6 +52,7 @@ class PeminjamanCreateView(GroupRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.peminjam = self.request.user
         form.instance.barang = Barang.objects.get(id_barang=self.kwargs['id_barang'])
+        print(form.instance.jml_dipinjam)
         form.save()
         return super(PeminjamanCreateView, self).form_valid(form)
 
