@@ -7,10 +7,12 @@
 }
 </style>
 
+<!--
 <div id="action">
     <a class="button is-link" id="action-pinjam">Pinjam</a>
     <a class="button is-danger" id="action-hapus">Hapus</a>
 </div>
+-->
 <div class="card events-card">
     <header class="card-header">
         <h1 class="card-header-title">
@@ -43,7 +45,8 @@
                 <th>Kondisi</th>
                 <th>Sumber Dana</th>
                 <th>Jumlah</th>
-                <th><input type="checkbox" id="data-barang-check-all"></th>
+                <!--<th><input type="checkbox" id="data-barang-check-all"></th>-->
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +59,8 @@
                 <td>{{ barang.get_kondisi_display }}</td>
                 <td>{{ barang.sumber_dana }}</td>
                 <td>{{ barang.jumlah_barang }}</td>
-                <td><input type="checkbox" class="data-barang-item-check"></td>
+                <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
+                <td><a href="{% url 'detail_barang' barang.id_barang %}"><button class="button is-small is-warning has-text-white">Action</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
