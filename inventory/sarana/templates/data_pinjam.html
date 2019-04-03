@@ -6,6 +6,17 @@
     text-align: right;
 }
 </style>
+<style>
+#tombol {
+    margin: 5px 0;
+    text-align: right;
+}
+</style>
+
+<div id="tombol">
+    <a class="is-small button is-link" onclick="exportTableToExcel('table-pinjam', 'data-pinjam')">Generate Laporan</a>
+    <a class="is-small button is-success" href="{% url 'data_barang_pinjam' %}">Tambah Data Peminjaman Barang</a>
+</div>
 
 <!--
 <div id="action">
@@ -35,7 +46,7 @@
 
     <div class="card-table">
         <div class="content">
-            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="table-barang">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="table-pinjam">
             <thead>
                 <tr>
                 <th>ID Pinjam</th>
@@ -68,4 +79,36 @@
         </div>
     </div>
 </div>
+<script>
+function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+</script>
 {% endblock %}
