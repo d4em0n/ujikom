@@ -12,6 +12,7 @@ urlpatterns = [
     path('dashboard/barang/', views.BarangListView.as_view(), name='barang'),
     path('dashboard/barang/<int:pk>/', views.BarangDetailView.as_view(), name='detail_barang'),
     path('dashboard/barang/<int:pk>/edit', views.BarangUpdateView.as_view(), name='edit_barang'),
+    path('dashboard/barang/<int:pk>/delete', views.BarangDeleteView.as_view(), name='delete_barang'),
     path('dashboard/barang/entri/', views.BarangCreateView.as_view(), name='entri_barang'),
     path('dashboard/barang/<int:id_barang>/pinjam', views.PeminjamanCreateView.as_view(), name='pinjam_barang'),
     path('dashboard/pinjam/', views.PeminjamanListView.as_view(), name='pinjam'),

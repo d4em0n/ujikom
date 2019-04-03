@@ -50,6 +50,13 @@ class BarangUpdateView(GroupRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse_lazy('detail_barang', kwargs={'pk': self.object.pk})
 
+class BarangDeleteView(GroupRequiredMixin, generic.DeleteView):
+    model = Barang
+    template_name = 'entri_barang.html'
+    group_required = ["Manajemen", "Administrator"]
+    form_class = BarangCreateForm
+    success_url = reverse_lazy('barang')
+
 class PeminjamanListView(GroupRequiredMixin, generic.ListView):
     model = PinjamBarang
     group_required = ["Manajemen", "Administrator"]
