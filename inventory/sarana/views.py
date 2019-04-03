@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Barang
+from .models import Barang, PinjamBarang
 from .mixins import GroupRequiredMixin
-from .forms import BarangCreateForm
+from .forms import BarangCreateForm, PeminjamanCreateForm
 from django.urls import reverse_lazy, reverse
 
 # Create your views here.
@@ -11,15 +11,6 @@ def index(request):
 
 def dashboard(request):
     return render(request, 'admin.html')
-
-def base(request):
-    return render(request, 'base_admin.html')
-
-def barang(request):
-    return render(request, 'data_barang.html')
-
-def entri_barang(request):
-    return render(request, 'entri_barang.html')
 
 class BarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang
@@ -46,3 +37,25 @@ class BarangUpdateView(GroupRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('detail_barang', kwargs={'pk': self.object.pk})
+
+class PeminjamanCreateView(GroupRequiredMixin, generic.CreateView):
+    model = PinjamBarang
+    form_class = PeminjamanCreateForm
+    group_required = ["Manajemen", "Administrator"]
+    template_name = 'pinjam_barang.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PeminjamanCreateView, self).get_context_data(**kwargs)
+        context['barang'] = Barang.objects.get(id_barang=self.kwargs['id_barang'])
+        return context
+    
+    def form_valid(self, form):
+        form.instance.peminjam = self.request.user
+        form.instance.barang = Barang.objects.get(id_barang=self.kwargs['id_barang'])
+        form.save()
+        return super(PeminjamanCreateView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        print(form.errors)
+        return response

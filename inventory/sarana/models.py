@@ -37,6 +37,9 @@ class PinjamBarang(models.Model):
     barang = models.ForeignKey(Barang, on_delete=models.CASCADE, related_name='dipinjam')
     tgl_kembali = models.DateField()
 
+    def get_absolute_url(self):
+        return reverse('detail_barang', args=[self.barang.id_barang])
+
 class StokBarang(models.Model):
     barang = models.ForeignKey(Barang, on_delete=models.CASCADE, related_name='stok')
     jml_masuk = models.IntegerField()
