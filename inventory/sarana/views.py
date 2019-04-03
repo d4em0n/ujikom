@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Barang, PinjamBarang
+from .models import Barang, PinjamBarang, StokBarang
 from .mixins import GroupRequiredMixin
 from .forms import BarangCreateForm, PeminjamanCreateForm
 from django.urls import reverse_lazy, reverse
@@ -23,11 +23,23 @@ class BarangDetailView(GroupRequiredMixin, generic.DeleteView):
     group_required = ["Manajemen", "Administrator"]
     template_name = 'detail_barang.html'
     context_object_name = 'barang'
+    
+    def get_context_data(self, **kwargs):
+        context = super(BarangDetailView, self).get_context_data(**kwargs)
+        stok = context['barang'].stok.get()
+        context['total_stok'] = stok.total_stok
+        return context
 
 class BarangCreateView(GroupRequiredMixin, generic.CreateView):
     template_name = 'entri_barang.html'
     group_required = ["Manajemen", "Administrator"]
     form_class = BarangCreateForm
+
+    def form_valid(self, form):
+        form.save()
+        stok = StokBarang(total_stok=form.instance.jumlah_barang, jml_masuk=0, jml_keluar=0, jml_dipinjam=0, barang=form.instance)
+        stok.save()
+        return super(BarangCreateView, self).form_valid(form)
 
 class BarangUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = Barang
@@ -47,13 +59,19 @@ class PeminjamanCreateView(GroupRequiredMixin, generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super(PeminjamanCreateView, self).get_context_data(**kwargs)
         context['barang'] = Barang.objects.get(id_barang=self.kwargs['id_barang'])
+        stok = context['barang'].stok.get()
+        context['total_stok'] = stok.total_stok
         return context
     
     def form_valid(self, form):
+        barang = Barang.objects.get(id_barang=self.kwargs['id_barang'])
+        stok = barang.stok.get()
+        stok.total_stok -= form.instance.jml_dipinjam
+        stok.jml_dipinjam += form.instance.jml_dipinjam
+        stok.save() 
         form.instance.peminjam = self.request.user
-        form.instance.barang = Barang.objects.get(id_barang=self.kwargs['id_barang'])
+        form.instance.barang = barang
         print(form.instance.jml_dipinjam)
-        form.save()
         return super(PeminjamanCreateView, self).form_valid(form)
 
     def form_invalid(self, form):

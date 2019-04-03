@@ -22,13 +22,14 @@
                 <li><strong>Lokasi:</strong> {{ barang.lokasi }}</li>
                 <li><strong>Sumber dana:</strong> {{ barang.sumber_dana }}</li>
                 <li><strong>Jumlah:</strong> {{ barang.jumlah_barang }}</li>
+                <li><strong>Total stok:</strong> {{ total_stok }}</li>
             </ul>
         </div>
         <div class="content">
                 <div class="field">
                     <label class="label is-small">Masukkan Jumlah Pinjam</label>
                     <div class="control">
-                    <input class="input" type="number" id="{{ form.jml_dipinjam.id_for_label }}" name="{{ form.jml_dipinjam.html_name }}" placeholder="1" min="1" max="{{ barang.jumlah_barang }}">
+                    <input class="input" type="number" id="{{ form.jml_dipinjam.id_for_label }}" name="{{ form.jml_dipinjam.html_name }}" placeholder="1" min="1" max="{{ total_stok }}">
                     </div>
                 </div>
                 <div class="field">
