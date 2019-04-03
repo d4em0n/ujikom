@@ -1,18 +1,15 @@
 {% extends 'base_admin.html' %}
 {% block content %}
 <style>
-#action {
+#tombol {
     margin: 5px 0;
     text-align: right;
 }
 </style>
 
-<!--
-<div id="action">
-    <a class="button is-link" id="action-pinjam">Pinjam</a>
-    <a class="button is-danger" id="action-hapus">Hapus</a>
+<div id="tombol">
+    <a class="button is-link" onclick="exportTableToExcel('table-barang', 'data-barang')">Generate Laporan</a>
 </div>
--->
 <div class="card events-card">
     <header class="card-header">
         <h1 class="card-header-title">
@@ -68,4 +65,36 @@
         </div>
     </div>
 </div>
+<script>
+function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+</script>
 {% endblock %}
