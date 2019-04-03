@@ -1,6 +1,6 @@
 {% extends 'base_admin.html' %}
 {% block content %}
-<form method="post" action="{% url 'entri_barang' %}" id="form-entri-barang">
+<form method="post" action="" id="form-entri-barang">
 {% csrf_token %}
 <div class="card">
   <header class="card-header">
@@ -21,35 +21,35 @@
             <div class="field">
             <label class="label">Nama Barang</label>
             <div class="control">
-                <input class="input" type="text" id="{{ form.nama_barang.id_for_label }}" name="{{ form.nama_barang.html_name }}" placeholder="Barang">
+                <input class="input" type="text" id="{{ form.nama_barang.id_for_label }}" name="{{ form.nama_barang.html_name }}" placeholder="Barang" value="{{ barang.nama_barang }}">
             </div>
             </div>
 
             <div class="field">
             <label class="label">Spesifikasi/Merk</label>
             <div class="control">
-                <input class="input" type="text" id="{{ form.spesifikasi.id_for_label }}" name="{{ form.spesifikasi.html_name }}" placeholder="Spesifikasi/Merk">
+                <input class="input" type="text" id="{{ form.spesifikasi.id_for_label }}" name="{{ form.spesifikasi.html_name }}" placeholder="Spesifikasi/Merk" value="{{ barang.spesifikasi }}">
             </div>
             </div>
 
             <div class="field">
             <label class="label">Lokasi</label>
             <div class="control">
-                <input class="input" type="text" id="{{ form.lokasi.id_for_label }}" name="{{ form.lokasi.html_name }}" placeholder="Lokasi">
+                <input class="input" type="text" id="{{ form.lokasi.id_for_label }}" name="{{ form.lokasi.html_name }}" placeholder="Lokasi" value="{{ barang.lokasi }}">
             </div>
             </div>
 
             <div class="field">
             <label class="label">Sumber Dana</label>
             <div class="control">
-                <input class="input" type="text" id="{{ form.sumber_dana.id_for_label }}" name="{{ form.sumber_dana.html_name }}" placeholder="Sumber">
+                <input class="input" type="text" id="{{ form.sumber_dana.id_for_label }}" name="{{ form.sumber_dana.html_name }}" placeholder="Sumber" value="{{ barang.sumber_dana }}">
             </div>
             </div>
 
             <div class="field">
             <label class="label">Jumlah Barang</label>
             <div class="control">
-                <input class="input" type="number" id="{{ form.jumlah_barang.id_for_label }}" name="{{ form.jumlah_barang.html_name }}" placeholder="1" min="1">
+                <input class="input" type="number" id="{{ form.jumlah_barang.id_for_label }}" name="{{ form.jumlah_barang.html_name }}" placeholder="1" min="1" value="{{ barang.jumlah_barang }}">
             </div>
             </div>
 
@@ -58,9 +58,9 @@
             <div class="control">
                 <div class="select">
                 <select id="{{ form.kondisi.id_for_label }}" name="{{ form.kondisi.html_name }}">
-                    <option value="A">Baik</option>
-                    <option value="B">Kurang baik berfungsi</option>
-                    <option value="C">Rusak</option>
+                    <option value="A" {% if barang.kondisi == "A" %}selected{% endif %}>Baik</option>
+                    <option value="B" {% if barang.kondisi == "B" %}selected{% endif %}>Kurang baik berfungsi</option>
+                    <option value="C" {% if barang.kondisi == "C" %}selected{% endif %}>Rusak</option>
                 </select>
                 </div>
             </div>

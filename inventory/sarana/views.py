@@ -3,6 +3,7 @@ from django.views import generic
 from .models import Barang
 from .mixins import GroupRequiredMixin
 from .forms import BarangCreateForm
+from django.urls import reverse_lazy, reverse
 
 # Create your views here.
 def index(request):
@@ -36,3 +37,12 @@ class BarangCreateView(GroupRequiredMixin, generic.CreateView):
     template_name = 'entri_barang.html'
     group_required = ["Manajemen", "Administrator"]
     form_class = BarangCreateForm
+
+class BarangUpdateView(GroupRequiredMixin, generic.UpdateView):
+    model = Barang
+    template_name = 'entri_barang.html'
+    group_required = ["Manajemen", "Administrator"]
+    form_class = BarangCreateForm
+
+    def get_success_url(self):
+        return reverse_lazy('detail_barang', kwargs={'pk': self.object.pk})
