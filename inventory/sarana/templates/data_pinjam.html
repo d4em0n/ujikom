@@ -1,0 +1,71 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<style>
+#action {
+    margin: 5px 0;
+    text-align: right;
+}
+</style>
+
+<!--
+<div id="action">
+    <a class="button is-link" id="action-pinjam">Pinjam</a>
+    <a class="button is-danger" id="action-hapus">Hapus</a>
+</div>
+-->
+<div class="card events-card">
+    <header class="card-header">
+        <h1 class="card-header-title">
+            Daftar Data Barang
+        </h1>
+        <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
+    </header>
+    <div class="card-content" style="padding:10px">
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Cari Barang">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+    </div>
+
+    <div class="card-table">
+        <div class="content">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="table-barang">
+            <thead>
+                <tr>
+                <th>ID Pinjam</th>
+                <th>Peminjam</th>
+                <th>Tanggal Pinjam</th>
+                <th>Nama Barang</th>
+                <th>Kondisi</th>
+                <th>Jumlah Pinjam</th>
+                <th>Tanggal Kembali</th>
+                <!--<th><input type="checkbox" id="data-barang-check-all"></th>-->
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pinjam in data_pinjam %}
+                <tr>
+                <td>{{ pinjam.id_pinjam }}</td>
+                <td>{{ pinjam.peminjam.username }}</td>
+                <td>{{ pinjam.tgl_pinjam }}</td>
+                <td>{{ pinjam.barang.nama_barang }}</td>
+                <td>{{ pinjam.barang.get_kondisi_display }}</td>
+                <td>{{ pinjam.jml_dipinjam }}</td>
+                <td>{{ pinjam.tgl_kembali }}</td>
+                <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
+                <td><a href="{% url 'detail_pinjam' pinjam.id_pinjam %}"><button class="button is-small is-warning has-text-white">Action</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

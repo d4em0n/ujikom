@@ -57,9 +57,10 @@
                     <ul class="menu-list">
                         {% url 'dashboard' as dashboard_url %}
                         {% url 'barang' as barang_url %}
+                        {% url 'pinjam' as pinjam_url %}
                         <li><a href="{% url 'dashboard' %}" {% if request.path == dashboard_url %}class="is-active"{% endif %}>Dashboard</a></li>
                         <li><a href="{% url 'barang' %}" {% if request.path == barang_url %}class="is-active"{% endif %}>Data Barang</a></li>
-                        <li><a href="#">Data Peminjaman Barang</a></li>
+                        <li><a href="{% url 'pinjam' %}" {% if request.path == pinjam_url %}class="is-active"{% endif %}>Data Peminjaman Barang</a></li>
                     </ul>
                     <p class="menu-label">
                         Administration

@@ -1,0 +1,31 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+        Detail Peminjaman :&nbsp;&nbsp;&nbsp;<strong>{{ pinjam.id_pinjam }}</strong>
+    </p>
+    <a href="#" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <div class="card-content">
+    <div class="content">
+        <ul>
+            <li><strong>Peminjam :</strong> {{ pinjam.peminjam.username }}</li>
+            <li><strong>Tanggal pinjam :</strong> {{ pinjam.tgl_pinjam }}</li>
+            <li><strong>Nama barang :</strong> {{ pinjam.barang.nama_barang }}</li>
+            <li><strong>Kondisi barang :</strong> {{ pinjam.barang.get_kondisi_display }}</li>
+            <li><strong>Jumlah pinjam :</strong> {{ pinjam.jml_dipinjam }}</li>
+            <li><strong>Tanggal kembali :</strong> {{ pinjam.tgl_kembali }}</li>
+        </ul>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <a href="#" class="card-footer-item has-background-success has-text-white">Selesai Pinjam</a>
+    <a href="#" class="card-footer-item has-background-info has-text-white">Ubah</a>
+  </footer>
+</div>
+{% endblock %}
