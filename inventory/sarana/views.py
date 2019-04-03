@@ -119,3 +119,16 @@ class PeminjamanUpdateView(GroupRequiredMixin, generic.UpdateView):
         stok.jml_dipinjam += distance
         stok.save() 
         return super(PeminjamanUpdateView, self).form_valid(form)
+
+class PeminjamanDeleteView(GroupRequiredMixin, generic.DeleteView):
+    model = PinjamBarang
+    group_required = ["Manajemen", "Administrator"]
+    success_url = reverse_lazy('pinjam')
+
+    def delete(self, *args, **kwargs):
+        self.object = self.get_object()
+        stok = self.object.barang.stok.get()
+        stok.total_stok += self.object.jml_dipinjam
+        stok.jml_dipinjam -= self.object.jml_dipinjam
+        stok.save()
+        return super(PeminjamanDeleteView, self).delete(*args, **kwargs)

@@ -23,9 +23,12 @@
         </ul>
     </div>
   </div>
+  <form action="{% url 'delete_pinjam' pinjam.id_pinjam %}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus data ini?')">
+  {% csrf_token %}
   <footer class="card-footer">
-    <a href="#" class="card-footer-item has-background-success has-text-white">Selesai Pinjam</a>
+    <a href="#" onclick="return confirm('Apakah anda ingin menghapus data ini?') ? this.parentNode.parentNode.submit() : false" class="card-footer-item has-background-success has-text-white">Selesai Pinjam</a>
     <a href="{% url 'edit_pinjam' pinjam.id_pinjam %}" class="card-footer-item has-background-info has-text-white">Ubah</a>
   </footer>
+  </form>
 </div>
 {% endblock %}
