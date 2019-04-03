@@ -44,6 +44,8 @@ class StokBarang(models.Model):
     barang = models.ForeignKey(Barang, on_delete=models.CASCADE, related_name='stok')
     jml_masuk = models.IntegerField()
     jml_keluar = models.IntegerField()
+    jml_dipinjam = models.IntegerField()
+    total_stok = models.IntegerField()
 
 class BarangKeluar(models.Model):
     barang = models.ForeignKey(Barang, on_delete=models.CASCADE, related_name='barang_keluar')
