@@ -1,0 +1,50 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<span class="is-small has-text-danger" style="font-size: 9pt;margin-left:11px">P.S: Anda tidak bisa mengubah barang pinjaman, silakan selesaikan pinjaman dan lakukan peminjaman barang yang anda inginkan</span>
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+        Pinjam Barang :&nbsp;&nbsp;&nbsp;<strong>{{ barang.id_barang }}</strong>
+    </p>
+    <a href="#" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <form method="post" action="" id="form-pinjam-barang">
+    {% csrf_token %}
+
+    <div class="card-content">
+        <div class="content">
+            <ul>
+                <li><strong>Nama barang:</strong> {{ pinjam.barang.nama_barang }}</li>
+                <li><strong>Spesifikasi:</strong> {{ pinjam.barang.spesifikasi }}</li>
+                <li><strong>Kondisi:</strong> {{ pinjam.barang.get_kondisi_display }}</li>
+                <li><strong>Lokasi:</strong> {{ pinjam.barang.lokasi }}</li>
+                <li><strong>Sumber dana:</strong> {{ pinjam.barang.sumber_dana }}</li>
+                <li><strong>Jumlah:</strong> {{ pinjam.barang.jumlah_barang }}</li>
+                <li><strong>Total stok:</strong> {{ total_stok }}</li>
+            </ul>
+        </div>
+        <div class="content">
+                <div class="field">
+                    <label class="label is-small">Masukkan Jumlah Pinjam</label>
+                    <div class="control">
+                    <input class="input" type="number" id="{{ form.jml_dipinjam.id_for_label }}" name="{{ form.jml_dipinjam.html_name }}" placeholder="1" min="1" max="{{ total_stok }}" value="{{ pinjam.jml_dipinjam }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label is-small">Masukkan Tanggal Kembali</label>
+                    <div class="control">
+                    <input class="input" type="date" id="{{ form.tgl_kembali.id_for_label }}" min="{% now "Y-m-d" %}" name="{{ form.tgl_kembali.html_name }}" value="{{ pinjam.tgl_kembali|date:'Y-m-d' }}">
+                    </div>
+                </div>
+        </div>
+    </div>
+    <footer class="card-footer">
+        <a onclick="document.getElementById('form-pinjam-barang').submit()" href="#" class="card-footer-item has-background-success has-text-white">Pinjam</a>
+    </footer>
+  </form>
+</div>
+{% endblock %}

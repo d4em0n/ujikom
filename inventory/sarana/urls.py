@@ -15,5 +15,6 @@ urlpatterns = [
     path('dashboard/barang/entri/', views.BarangCreateView.as_view(), name='entri_barang'),
     path('dashboard/barang/<int:id_barang>/pinjam', views.PeminjamanCreateView.as_view(), name='pinjam_barang'),
     path('dashboard/pinjam/', views.PeminjamanListView.as_view(), name='pinjam'),
-    path('dashboard/pinjam/<int:pk>/', views.PeminjamanDetailView.as_view(), name='detail_pinjam')
+    path('dashboard/pinjam/<int:pk>/', views.PeminjamanDetailView.as_view(), name='detail_pinjam'),
+    path('dashboard/pinjam/<int:pk>/edit', views.PeminjamanUpdateView.as_view(), name='edit_pinjam')
 ]

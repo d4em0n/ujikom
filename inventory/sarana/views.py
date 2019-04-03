@@ -90,3 +90,25 @@ class PeminjamanCreateView(GroupRequiredMixin, generic.CreateView):
         response = super().form_invalid(form)
         print(form.errors)
         return response
+
+class PeminjamanUpdateView(GroupRequiredMixin, generic.UpdateView):
+    model = PinjamBarang
+    form_class = PeminjamanCreateForm
+    group_required = ["Manajemen", "Administrator"]
+    template_name = 'edit_pinjam_barang.html'
+    context_object_name = 'pinjam'
+
+    def get_context_data(self, **kwargs):
+        context = super(PeminjamanUpdateView, self).get_context_data(**kwargs)
+        stok = context['pinjam'].barang.stok.get()
+        context['total_stok'] = stok.total_stok
+        return context
+
+    def form_valid(self, form):
+        pinjam = PinjamBarang.objects.get(pk=self.object.pk) # Get old data
+        stok = pinjam.barang.stok.get()
+        distance = form.instance.jml_dipinjam - pinjam.jml_dipinjam
+        stok.total_stok -= distance
+        stok.jml_dipinjam += distance
+        stok.save() 
+        return super(PeminjamanUpdateView, self).form_valid(form)

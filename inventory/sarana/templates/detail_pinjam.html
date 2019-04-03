@@ -25,7 +25,7 @@
   </div>
   <footer class="card-footer">
     <a href="#" class="card-footer-item has-background-success has-text-white">Selesai Pinjam</a>
-    <a href="#" class="card-footer-item has-background-info has-text-white">Ubah</a>
+    <a href="{% url 'edit_pinjam' pinjam.id_pinjam %}" class="card-footer-item has-background-info has-text-white">Ubah</a>
   </footer>
 </div>
 {% endblock %}
