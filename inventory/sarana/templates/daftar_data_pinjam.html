@@ -1,16 +1,6 @@
 {% extends 'base_admin.html' %}
 {% block content %}
-<style>
-#tombol {
-    margin: 5px 0;
-    text-align: right;
-}
-</style>
-
-<div id="tombol">
-    <a class="is-small button is-link" onclick="exportTableToExcel('table-barang', 'data-barang')">Generate Laporan</a>
-    <a class="is-small button is-success" href="{% url 'entri_barang' %}">Tambah Data Barang</a>
-</div>
+<span class="is-small has-text-danger" style="font-size: 9pt;margin-left:11px">Silakan pilih barang untuk dipinjam</span>
 <div class="card events-card">
     <header class="card-header">
         <h1 class="card-header-title">
@@ -58,7 +48,7 @@
                 <td>{{ barang.sumber_dana }}</td>
                 <td>{{ barang.jumlah_barang }}</td>
                 <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
-                <td><a href="{% url 'detail_barang' barang.id_barang %}"><button class="button is-small is-warning has-text-white">Action</button></a></td>
+                <td><a href="{% url 'pinjam_barang' barang.id_barang %}"><button class="button is-small is-success has-text-white">Pinjam</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -66,36 +56,4 @@
         </div>
     </div>
 </div>
-<script>
-function exportTableToExcel(tableID, filename = ''){
-    var downloadLink;
-    var dataType = 'application/vnd.ms-excel';
-    var tableSelect = document.getElementById(tableID);
-    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-    
-    // Specify file name
-    filename = filename?filename+'.xls':'excel_data.xls';
-    
-    // Create download link element
-    downloadLink = document.createElement("a");
-    
-    document.body.appendChild(downloadLink);
-    
-    if(navigator.msSaveOrOpenBlob){
-        var blob = new Blob(['\ufeff', tableHTML], {
-            type: dataType
-        });
-        navigator.msSaveOrOpenBlob( blob, filename);
-    }else{
-        // Create a link to the file
-        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-    
-        // Setting the file name
-        downloadLink.download = filename;
-        
-        //triggering the function
-        downloadLink.click();
-    }
-}
-</script>
 {% endblock %}
