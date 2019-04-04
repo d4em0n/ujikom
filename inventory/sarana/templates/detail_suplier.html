@@ -64,7 +64,7 @@
             <tbody>
                 {% for barang_masuk in data_barang_masuk %}
                 <tr class="data-barang-item" id="barang-item-{{ barang.id_barang }}">
-                <td>{{ barang_masuk.barang.id_barang }}</td>
+                <td><a href="{% url 'detail_barang' barang_masuk.barang.id_barang %}"></u>{{ barang_masuk.barang.id_barang }}</u></a></td>
                 <td>{{ barang_masuk.barang.nama_barang }}</td>
                 <td>{{ barang_masuk.jml_masuk }}</td>
                 <td>{{ barang_masuk.tgl_masuk }}</td>
