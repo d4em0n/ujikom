@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Barang, PinjamBarang, StokBarang
+from .models import Barang, PinjamBarang, StokBarang, Suplier
 from .mixins import GroupRequiredMixin
 from .forms import BarangCreateForm, PeminjamanCreateForm
 from django.urls import reverse_lazy, reverse
@@ -11,6 +11,12 @@ def index(request):
 
 def dashboard(request):
     return render(request, 'admin.html')
+
+class SuplierListView(GroupRequiredMixin, generic.ListView):
+    model = Suplier
+    group_required = ["Manajemen", "Administrator"]
+    context_object_name = 'data_suplier'
+    template_name = 'data_suplier.html'
 
 class BarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang
