@@ -25,4 +25,5 @@ urlpatterns = [
     path('dashboard/suplier/<int:pk>/', views.SuplierDetailView.as_view(), name='detail_suplier'),
     path('dashboard/suplier/<int:pk>/edit', views.SuplierUpdateView.as_view(), name='edit_suplier'),
     path('dashboard/suplier/<int:pk>/delete', views.SuplierDeleteView.as_view(), name='delete_suplier'),
+    path('dashboard/suplier/<int:id_suplier>/entri_barang_masuk', views.BarangMasukCreateView.as_view(), name='entri_barang_masuk'),
 ]

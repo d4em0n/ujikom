@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Barang, PinjamBarang, StokBarang, Suplier
+from .models import Barang, PinjamBarang, StokBarang, Suplier, BarangMasuk
 from .mixins import GroupRequiredMixin
 from .forms import BarangCreateForm, PeminjamanCreateForm, SuplierCreateForm
 from django.urls import reverse_lazy, reverse
@@ -29,6 +29,11 @@ class SuplierDetailView(GroupRequiredMixin, generic.DetailView):
     template_name = 'detail_suplier.html'
     context_object_name = 'suplier'
 
+    def get_context_data(self, **kwargs):
+        context = super(SuplierDetailView, self).get_context_data(**kwargs)
+        context['data_barang_masuk'] = context['suplier'].barang_masuk.all()
+        return context
+
 class SuplierUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = Suplier
     group_required = ["Manajemen", "Administrator"]
@@ -42,6 +47,23 @@ class SuplierDeleteView(GroupRequiredMixin, generic.DeleteView):
     group_required = ["Manajemen", "Administrator"]
     form_class = SuplierCreateForm
     success_url = reverse_lazy('suplier')
+
+class BarangMasukCreateView(GroupRequiredMixin, generic.CreateView):
+    template_name = 'entri_barang.html'
+    group_required = ["Manajemen", "Administrator"]
+    form_class = BarangCreateForm
+
+    def form_valid(self, form):
+        form.save()
+        stok = StokBarang(total_stok=form.instance.jumlah_barang, jml_masuk=form.instance.jumlah_barang, jml_keluar=0, jml_dipinjam=0, barang=form.instance)
+        suplier = Suplier.objects.get(id_suplier=self.kwargs['id_suplier'])
+        barang_masuk = BarangMasuk(barang=form.instance, jml_masuk=form.instance.jumlah_barang, suplier=suplier)
+        stok.save()
+        barang_masuk.save()
+        return super(BarangMasukCreateView, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('detail_suplier', kwargs={'pk': self.kwargs['id_suplier']})
 
 class BarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang

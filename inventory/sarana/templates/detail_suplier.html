@@ -28,4 +28,52 @@
   </footer>
   </form>
 </div>
+<style>
+#tombol {
+    margin: 5px 0;
+    text-align: right;
+}
+</style>
+
+<div id="tombol">
+    <a class="is-small button is-success" href="{% url 'entri_barang_masuk' suplier.id_suplier %}">Tambah Data Barang Masuk dari Suplier</a>
+</div>
+<div class="card events-card">
+    <header class="card-header">
+        <h1 class="card-header-title">
+            Daftar Data Barang Masuk dari Suplier {{ suplier.id_suplier }}
+        </h1>
+        <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
+    </header>
+    <div class="card-table">
+        <div class="content">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="table-suplier">
+            <thead>
+                <tr>
+                <th>ID Barang</th>
+                <th>Nama Barang</th>
+                <th>Jumlah Masuk</th>
+                <th>Tanggal Masuk</th>
+                <!--<th><input type="checkbox" id="data-barang-check-all"></th>-->
+                </tr>
+            </thead>
+            <tbody>
+                {% for barang_masuk in data_barang_masuk %}
+                <tr class="data-barang-item" id="barang-item-{{ barang.id_barang }}">
+                <td>{{ barang_masuk.barang.id_barang }}</td>
+                <td>{{ barang_masuk.barang.nama_barang }}</td>
+                <td>{{ barang_masuk.jml_masuk }}</td>
+                <td>{{ barang_masuk.tgl_masuk }}</td>
+                <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
