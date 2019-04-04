@@ -20,5 +20,9 @@ urlpatterns = [
     path('dashboard/pinjam/<int:pk>/', views.PeminjamanDetailView.as_view(), name='detail_pinjam'),
     path('dashboard/pinjam/<int:pk>/edit', views.PeminjamanUpdateView.as_view(), name='edit_pinjam'),
     path('dashboard/pinjam/<int:pk>/delete', views.PeminjamanDeleteView.as_view(), name='delete_pinjam'),
-    path('dashboard/suplier/', views.SuplierListView.as_view(), name='suplier')
+    path('dashboard/suplier/', views.SuplierListView.as_view(), name='suplier'),
+    path('dashboard/suplier/create', views.SuplierCreateView.as_view(), name='entri_suplier'),
+    path('dashboard/suplier/<int:pk>/', views.SuplierDetailView.as_view(), name='detail_suplier'),
+    path('dashboard/suplier/<int:pk>/edit', views.SuplierUpdateView.as_view(), name='edit_suplier'),
+    path('dashboard/suplier/<int:pk>/delete', views.SuplierDeleteView.as_view(), name='delete_suplier'),
 ]

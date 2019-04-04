@@ -1,0 +1,31 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+        Detail Suplier :&nbsp;&nbsp;&nbsp;<strong>{{ suplier.id_suplier }}</strong>
+    </p>
+    <a href="#" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <div class="card-content">
+    <div class="content">
+        <ul>
+            <li><strong>Nama:</strong> {{ suplier.nama }}</li>
+            <li><strong>Alamat:</strong> {{ suplier.alamat }}</li>
+            <li><strong>Telepon:</strong> {{ suplier.telepon }}</li>
+        </ul>
+    </div>
+  </div>
+  <form action="{% url 'delete_suplier' suplier.id_suplier %}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus data ini?')">
+  {% csrf_token %}
+  <footer class="card-footer">
+    <a href="{% url 'edit_suplier' suplier.id_suplier %}" class="card-footer-item has-background-info has-text-white">Ubah</a>
+    <a href="#" onclick="return confirm('Apakah anda ingin menghapus data ini?') ? this.parentNode.parentNode.submit() : false" class="card-footer-item has-background-danger has-text-white">Hapus</a>
+  </footer>
+  </form>
+</div>
+{% endblock %}

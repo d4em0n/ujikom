@@ -9,7 +9,7 @@
 
 <div id="tombol">
     <a class="is-small button is-link" onclick="exportTableToExcel('table-suplier', 'data-suplier')">Generate Laporan</a>
-    <a class="is-small button is-success" href="{% url 'data_barang_pinjam' %}">Tambah Data Suplier</a>
+    <a class="is-small button is-success" href="{% url 'entri_suplier' %}">Tambah Data Suplier</a>
 </div>
 <div class="card events-card">
     <header class="card-header">
@@ -52,7 +52,7 @@
                 <td>{{ suplier.alamat }}</td>
                 <td>{{ suplier.telepon }}</td>
                 <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
-                <td><a href=""><button class="button is-small is-success has-text-white">Action</button></a></td>
+                <td><a href="{% url 'detail_suplier' suplier.id_suplier %}"><button class="button is-small is-success has-text-white">Action</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -59,6 +59,9 @@ class Suplier(models.Model):
     nama = models.CharField(max_length=50)
     alamat = models.CharField(max_length=70)
     telepon = models.CharField(max_length=15)
+
+    def get_absolute_url(self):
+        return reverse('detail_suplier', args=[self.id_suplier])
     
 class BarangMasuk(models.Model):
     barang = models.ForeignKey(Barang, on_delete=models.CASCADE, related_name='barang_masuk')

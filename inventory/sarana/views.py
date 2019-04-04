@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Barang, PinjamBarang, StokBarang, Suplier
 from .mixins import GroupRequiredMixin
-from .forms import BarangCreateForm, PeminjamanCreateForm
+from .forms import BarangCreateForm, PeminjamanCreateForm, SuplierCreateForm
 from django.urls import reverse_lazy, reverse
 
 # Create your views here.
@@ -18,13 +18,38 @@ class SuplierListView(GroupRequiredMixin, generic.ListView):
     context_object_name = 'data_suplier'
     template_name = 'data_suplier.html'
 
+class SuplierCreateView(GroupRequiredMixin, generic.CreateView):
+    template_name = 'entri_suplier.html'
+    group_required = ["Manajemen", "Administrator"]
+    form_class = SuplierCreateForm
+
+class SuplierDetailView(GroupRequiredMixin, generic.DetailView):
+    model = Suplier
+    group_required = ["Manajemen", "Administrator"]
+    template_name = 'detail_suplier.html'
+    context_object_name = 'suplier'
+
+class SuplierUpdateView(GroupRequiredMixin, generic.UpdateView):
+    model = Suplier
+    group_required = ["Manajemen", "Administrator"]
+    template_name = 'entri_suplier.html'
+    context_object_name = 'suplier'
+    form_class = SuplierCreateForm
+
+class SuplierDeleteView(GroupRequiredMixin, generic.DeleteView):
+    model = Suplier 
+    template_name = 'entri_suplier.html'
+    group_required = ["Manajemen", "Administrator"]
+    form_class = SuplierCreateForm
+    success_url = reverse_lazy('suplier')
+
 class BarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang
     group_required = ["Manajemen", "Administrator"]
     context_object_name = 'daftar_barang'
     template_name = 'data_barang.html'
 
-class BarangDetailView(GroupRequiredMixin, generic.DeleteView):
+class BarangDetailView(GroupRequiredMixin, generic.DetailView):
     model = Barang
     group_required = ["Manajemen", "Administrator"]
     template_name = 'detail_barang.html'
