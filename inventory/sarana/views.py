@@ -79,7 +79,6 @@ class BarangKeluarCreateView(GroupRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         jml_keluar = form.instance.jml_keluar
-        print("jml_keluar {}".format(jml_keluar))
         barang = context['barang']
         stok = context['stok']
         form.instance.barang = barang
@@ -182,12 +181,10 @@ class PeminjamanCreateView(GroupRequiredMixin, generic.CreateView):
         stok.save() 
         form.instance.peminjam = self.request.user
         form.instance.barang = barang
-        print(form.instance.jml_dipinjam)
         return super(PeminjamanCreateView, self).form_valid(form)
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
-        print(form.errors)
         return response
 
 class PeminjamanUpdateView(GroupRequiredMixin, generic.UpdateView):
