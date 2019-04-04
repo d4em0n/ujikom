@@ -1,0 +1,59 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<form method="post" action="" id="form-entri-barang-keluar">
+{% csrf_token %}
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+        Entri Barang Keluar
+    </p>
+    <a href="#" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <!--
+  {{ from.as_p }}
+  -->
+  <div class="card-content">
+    <div class="content">
+            <div class="field">
+            <label class="label">Jumlah Keluar</label>
+            <div class="control">
+                <input class="input" type="number" min="1" max="{{ stok.total_stok }}" id="{{ form.jml_keluar.id_for_label }}" name="{{ form.jml_keluar.html_name }}" placeholder="Jumlah Keluar">
+            </div>
+            </div>
+
+            <div class="field">
+            <label class="label">Penerima</label>
+            <div class="control">
+                <input class="input" type="text" id="{{ form.penerima.id_for_label }}" name="{{ form.penerima.html_name }}" placeholder="Penerima">
+            </div>
+            </div>
+
+            <div class="field">
+            <label class="label">Lokasi</label>
+            <div class="control">
+                <input class="input" type="text" id="{{ form.lokasi.id_for_label }}" name="{{ form.lokasi.html_name }}" placeholder="Lokasi">
+            </div>
+            </div>
+
+            <div class="field">
+            <div class="control">
+                <label class="checkbox">
+                <input type="checkbox">
+                Konfirmasi jika data diatas sudah benar
+                </label>
+            </div>
+            </div>
+
+    </div>
+  </div>
+  <footer class="card-footer">
+    <a onclick="document.getElementById('form-entri-barang-keluar').submit()" href="#" class="card-footer-item has-background-success has-text-white">Simpan</a>
+    <a href="#" class="card-footer-item has-background-danger has-text-white">Batalkan</a>
+  </footer>
+</div>
+</form>
+{% endblock %}

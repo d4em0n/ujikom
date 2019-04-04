@@ -15,6 +15,7 @@ urlpatterns = [
     path('dashboard/barang/<int:pk>/delete', views.BarangDeleteView.as_view(), name='delete_barang'),
     path('dashboard/barang/entri/', views.BarangCreateView.as_view(), name='entri_barang'),
     path('dashboard/barang/<int:id_barang>/pinjam', views.PeminjamanCreateView.as_view(), name='pinjam_barang'),
+    path('dashboard/barang/<int:id_barang>/keluar', views.BarangKeluarCreateView.as_view(), name='keluar_barang'),
     path('dashboard/pinjam/', views.PeminjamanListView.as_view(), name='pinjam'),
     path('dashboard/data_pinjam/', views.DataPinjamBarangListView.as_view(), name='data_barang_pinjam'),
     path('dashboard/pinjam/<int:pk>/', views.PeminjamanDetailView.as_view(), name='detail_pinjam'),

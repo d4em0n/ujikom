@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Barang, PinjamBarang, StokBarang, Suplier, BarangMasuk
+from .models import Barang, PinjamBarang, StokBarang, Suplier, BarangMasuk, BarangKeluar
 from .mixins import GroupRequiredMixin
-from .forms import BarangCreateForm, PeminjamanCreateForm, SuplierCreateForm
+from .forms import BarangCreateForm, PeminjamanCreateForm, SuplierCreateForm, BarangKeluarCreateForm
 from django.urls import reverse_lazy, reverse
 
 # Create your views here.
@@ -65,11 +65,43 @@ class BarangMasukCreateView(GroupRequiredMixin, generic.CreateView):
     def get_success_url(self):
         return reverse_lazy('detail_suplier', kwargs={'pk': self.kwargs['id_suplier']})
 
+class BarangKeluarCreateView(GroupRequiredMixin, generic.CreateView):
+    template_name = 'entri_barang_keluar.html'
+    group_required = ["Manajemen", "Administrator"]
+    form_class = BarangKeluarCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(BarangKeluarCreateView, self).get_context_data(**kwargs)
+        context['barang'] = Barang.objects.get(id_barang=self.kwargs['id_barang'])
+        context['stok'] = context['barang'].stok.get()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        jml_keluar = form.instance.jml_keluar
+        print("jml_keluar {}".format(jml_keluar))
+        barang = context['barang']
+        stok = context['stok']
+        form.instance.barang = barang
+        form.save()
+        barang.jumlah_barang -= jml_keluar
+        stok.jml_keluar += jml_keluar
+        stok.total_stok -= jml_keluar
+        barang.save()
+        stok.save()
+        return super(BarangKeluarCreateView, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('detail_barang', kwargs={'pk': self.kwargs['id_barang']})
+
 class BarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang
     group_required = ["Manajemen", "Administrator"]
     context_object_name = 'daftar_barang'
     template_name = 'data_barang.html'
+
+    def get_queryset(self):
+        return Barang.objects.all().prefetch_related('stok')
 
 class BarangDetailView(GroupRequiredMixin, generic.DetailView):
     model = Barang
@@ -80,7 +112,7 @@ class BarangDetailView(GroupRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(BarangDetailView, self).get_context_data(**kwargs)
         stok = context['barang'].stok.get()
-        context['total_stok'] = stok.total_stok
+        context['stok'] = stok
         return context
 
 class BarangCreateView(GroupRequiredMixin, generic.CreateView):
