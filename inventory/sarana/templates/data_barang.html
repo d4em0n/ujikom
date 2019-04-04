@@ -6,7 +6,6 @@
     text-align: right;
 }
 </style>
-
 <div id="tombol">
     <a class="is-small button is-link" onclick="exportTableToExcel('table-barang', 'data-barang')">Generate Laporan</a>
     <a class="is-small button is-success" href="{% url 'entri_barang' %}">Tambah Data Barang</a>
@@ -42,6 +41,9 @@
                 <th>Lokasi</th>
                 <th>Kondisi</th>
                 <th>Sumber Dana</th>
+                <th>Jumlah Keluar</th>
+                <th>Jumlah Pinjam</th>
+                <th>Stok</th>
                 <th>Jumlah</th>
                 <!--<th><input type="checkbox" id="data-barang-check-all"></th>-->
                 <th>Action</th>
@@ -56,6 +58,9 @@
                 <td>{{ barang.lokasi }}</td>
                 <td>{{ barang.get_kondisi_display }}</td>
                 <td>{{ barang.sumber_dana }}</td>
+                <td>{{ barang.stok.all.0.jml_keluar }}</td>
+                <td>{{ barang.stok.all.0.jml_dipinjam }}</td>
+                <td>{{ barang.stok.all.0.total_stok }}</td>
                 <td>{{ barang.jumlah_barang }}</td>
                 <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
                 <td><a href="{% url 'detail_barang' barang.id_barang %}"><button class="button is-small is-warning has-text-white">Action</button></a></td>
