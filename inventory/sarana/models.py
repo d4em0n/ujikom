@@ -52,7 +52,7 @@ class BarangKeluar(models.Model):
     tgl_keluar = models.DateField(auto_now_add=True)
     jml_keluar = models.IntegerField(default=1)
     lokasi = models.CharField(max_length=100)
-    penerima = models.ForeignKey(User, on_delete=models.CASCADE, related_name='barang_keluar')
+    penerima = models.CharField(max_length=50)
 
 class Suplier(models.Model):
     id_suplier = models.AutoField(primary_key=True)
