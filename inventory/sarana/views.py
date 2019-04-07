@@ -5,6 +5,11 @@ from .mixins import GroupRequiredMixin
 from .forms import BarangCreateForm, PeminjamanCreateForm, SuplierCreateForm, BarangKeluarCreateForm
 from django.urls import reverse_lazy, reverse
 from django.db.models import Sum
+from django.contrib.auth.models import Group
+
+def has_group(user, group_name):
+    group = Group.objects.get(name=group_name)
+    return True if group in user.groups.all() else False
 
 # Create your views here.
 def index(request):
@@ -117,7 +122,7 @@ class BarangKeluarCreateView(GroupRequiredMixin, generic.CreateView):
 
 class BarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     context_object_name = 'daftar_barang'
     template_name = 'data_barang.html'
 
@@ -126,7 +131,7 @@ class BarangListView(GroupRequiredMixin, generic.ListView):
 
 class BarangDetailView(GroupRequiredMixin, generic.DetailView):
     model = Barang
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     template_name = 'detail_barang.html'
     context_object_name = 'barang'
     
@@ -165,9 +170,16 @@ class BarangDeleteView(GroupRequiredMixin, generic.DeleteView):
 
 class PeminjamanListView(GroupRequiredMixin, generic.ListView):
     model = PinjamBarang
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     template_name = 'data_pinjam.html'
     context_object_name = 'data_pinjam'
+
+    def get_queryset(self):
+        if has_group(self.request.user, "Peminjam"):
+            queryset = self.request.user.pinjaman.all()
+        else:
+            queryset = super(PeminjamanListView, self).get_queryset()
+        return queryset
 
 class DataBarangKeluarListView(GroupRequiredMixin, generic.ListView):
     model = Barang
@@ -177,20 +189,27 @@ class DataBarangKeluarListView(GroupRequiredMixin, generic.ListView):
 
 class DataPinjamBarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     template_name = 'daftar_data_pinjam.html'
     context_object_name = 'daftar_barang'
 
 class PeminjamanDetailView(GroupRequiredMixin, generic.DeleteView):
     model = PinjamBarang
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     template_name = 'detail_pinjam.html'
     context_object_name = 'pinjam'
+
+    def get_queryset(self):
+        if has_group(self.request.user, "Peminjam"):
+            queryset = self.request.user.pinjaman.all()
+        else:
+            queryset = super(PeminjamanListView, self).get_queryset()
+        return queryset
 
 class PeminjamanCreateView(GroupRequiredMixin, generic.CreateView):
     model = PinjamBarang
     form_class = PeminjamanCreateForm
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     template_name = 'pinjam_barang.html'
 
     def get_context_data(self, **kwargs):
@@ -217,7 +236,7 @@ class PeminjamanCreateView(GroupRequiredMixin, generic.CreateView):
 class PeminjamanUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = PinjamBarang
     form_class = PeminjamanCreateForm
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     template_name = 'edit_pinjam_barang.html'
     context_object_name = 'pinjam'
 
@@ -236,6 +255,13 @@ class PeminjamanUpdateView(GroupRequiredMixin, generic.UpdateView):
         stok.save() 
         return super(PeminjamanUpdateView, self).form_valid(form)
 
+    def get_queryset(self):
+        if has_group(self.request.user, "Peminjam"):
+            queryset = self.request.user.pinjaman.all()
+        else:
+            queryset = super(PeminjamanListView, self).get_queryset()
+        return queryset
+
 class PeminjamanDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = PinjamBarang
     group_required = ["Manajemen", "Administrator"]
@@ -248,6 +274,13 @@ class PeminjamanDeleteView(GroupRequiredMixin, generic.DeleteView):
         stok.jml_dipinjam -= self.object.jml_dipinjam
         stok.save()
         return super(PeminjamanDeleteView, self).delete(*args, **kwargs)
+
+    def get_queryset(self):
+        if has_group(self.request.user, "Peminjam"):
+            queryset = self.request.user.pinjaman.all()
+        else:
+            queryset = super(PeminjamanListView, self).get_queryset()
+        return queryset
 
 class BarangKeluarListView(GroupRequiredMixin, generic.ListView):
     model = BarangKeluar

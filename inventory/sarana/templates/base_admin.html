@@ -22,7 +22,7 @@
     <nav class="navbar is-white">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item brand-text" href="../"> Administrator </a>
+                <a class="navbar-item brand-text" href="../"> {{ request.user.groups.all.0|title }} </a>
                 <div class="navbar-burger burger" data-target="navMenu">
                     <span></span>
                     <span></span>
@@ -66,48 +66,36 @@
                         <li><a href="{% url 'dashboard' %}" {% if request.path == dashboard_url %}class="is-active"{% endif %}>Dashboard</a></li>
                         <li><a href="{% url 'barang' %}" {% if request.path == barang_url %}class="is-active"{% endif %}>Data Barang</a></li>
                         <li><a href="{% url 'pinjam' %}" {% if request.path == pinjam_url %}class="is-active"{% endif %}>Data Peminjaman Barang</a></li>
+                        {% if not request.user|has_group:'Peminjam' %}
                         <li><a href="{% url 'suplier' %}" {% if request.path == suplier_url %}class="is-active"{% endif %}>Data Suplier</a></li>
                         <li><a href="{% url 'barang_keluar' %}" {% if request.path == barang_keluar_url %}class="is-active"{% endif %}>Data Barang Keluar</a></li>
                         <li><a href="{% url 'barang_masuk' %}" {% if request.path == barang_masuk_url %}class="is-active"{% endif %}>Data Barang Masuk</a></li>
+                        {% endif %}
                     </ul>
                     <p class="menu-label">
                         Administration
                     </p>
                     <ul class="menu-list">
                         {% url 'entri_barang' as entri_barang_url %}
-                        <li><a href="{% url 'entri_barang' %}" {% if request.path == entri_barang_url %}class="is-active"{% endif %}>Entri Data Barang</a></li>
-                        <!--
-                        <li>
-                            <a>Manage Your Team</a>
-                            <ul>
-                                <li><a>Members</a></li>
-                                <li><a>Plugins</a></li>
-                                <li><a>Add a member</a></li>
-                            </ul>
-                        </li>
-                        -->
                         {% url 'data_barang_pinjam' as data_barang_pinjam_url %}
                         {% url 'entri_suplier' as entri_suplier_url %}
                         {% url 'data_barang_keluar' as data_barang_keluar_url %}
                         {% url 'data_entri_barang_masuk' as data_entri_barang_masuk_url %}
+                        {% if not request.user|has_group:'Peminjam' %}
+                        <li><a href="{% url 'entri_barang' %}" {% if request.path == entri_barang_url %}class="is-active"{% endif %}>Entri Data Barang</a></li>
                         <li><a href="{% url 'data_barang_pinjam' %}" {% if request.path == data_barang_pinjam_url %}class="is-active"{% endif %}>Entri Peminjaman Barang</a></li>
                         <li><a href="{% url 'entri_suplier' %}" {% if request.path == entri_suplier_url %}class="is-active"{% endif %}>Entri Suplier</a></li>
                         <li><a href="{% url 'data_barang_keluar' %}" {% if request.path == data_barang_keluar_url %}class="is-active"{% endif %}>Entri Barang Keluar</a></li>
                         <li><a href="{% url 'data_entri_barang_masuk' %}" {% if request.path == data_entri_barang_masuk_url %}class="is-active"{% endif %}>Entri Barang Masuk</a></li>
+                        {% else %}
+                        <li><a href="{% url 'data_barang_pinjam' %}" {% if request.path == data_barang_pinjam_url %}class="is-active"{% endif %}>Entri Peminjaman Barang</a></li>
+                        {% endif %}
                     </ul>
                 </aside>
             </div>
             <div class="column is-9">
-    <nav class="breadcrumb" aria-label="breadcrumbs">
-        <!--
-                    <ul>
-                        <li><a href="../">Bulma</a></li>
-                        <li><a href="../">Templates</a></li>
-                        <li><a href="../">Examples</a></li>
-                        <li class="is-active"><a href="#" aria-current="page">Admin</a></li>
-                    </ul>
-                        -->
-    </nav>
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+            </nav>
                 {% block content %}
                 {% endblock %}
             </div>

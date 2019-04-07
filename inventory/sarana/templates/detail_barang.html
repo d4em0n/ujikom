@@ -29,10 +29,14 @@
   <form action="{% url 'delete_barang' barang.id_barang %}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus data ini?')">
   {% csrf_token %}
   <footer class="card-footer">
+    {% if not request.user|has_group:'Peminjam' %}
     <a href="{% url 'pinjam_barang' barang.id_barang %}" class="card-footer-item has-background-success has-text-white">Pinjam</a>
     <a href="{% url 'edit_barang' barang.id_barang %}" class="card-footer-item has-background-info has-text-white">Ubah</a>
     <a href="#" onclick="return confirm('Apakah anda ingin menghapus data ini?') ? this.parentNode.parentNode.submit() : false" class="card-footer-item has-background-danger has-text-white">Hapus</a>
     <a href="{% url 'keluar_barang' barang.id_barang %}" class="card-footer-item has-background-warning has-text-white">Masukkan ke barang keluar</a>
+    {% else %}
+    <a href="{% url 'pinjam_barang' barang.id_barang %}" class="card-footer-item has-background-success has-text-white">Pinjam</a>
+    {% endif %}
   </footer>
   </form>
 </div>
