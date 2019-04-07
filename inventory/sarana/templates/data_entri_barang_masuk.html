@@ -1,0 +1,60 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<style>
+#tombol {
+    margin: 5px 0;
+    text-align: right;
+}
+</style>
+
+<span class="is-small has-text-danger" style="font-size: 9pt;margin-left:11px">Silakan pilih suplier barang masuk</span>
+<div class="card events-card">
+    <header class="card-header">
+        <h1 class="card-header-title">
+            Daftar Data Suplier
+        </h1>
+        <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
+    </header>
+    <div class="card-content" style="padding:10px">
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Cari Suplier">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+    </div>
+
+    <div class="card-table">
+        <div class="content">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="table-suplier">
+            <thead>
+                <tr>
+                <th>ID Suplier</th>
+                <th>Nama</th>
+                <th>Telepon</th>
+                <th>Alamat</th>
+                <!--<th><input type="checkbox" id="data-barang-check-all"></th>-->
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for suplier in data_suplier %}
+                <tr class="data-barang-item" id="barang-item-{{ barang.id_barang }}">
+                <td>{{ suplier.id_suplier }}</td>
+                <td>{{ suplier.nama }}</td>
+                <td>{{ suplier.alamat }}</td>
+                <td>{{ suplier.telepon }}</td>
+                <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
+                <td><a href="{% url 'entri_barang_masuk' suplier.id_suplier %}"><button class="button is-small is-success has-text-white">Pilih</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

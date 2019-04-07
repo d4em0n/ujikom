@@ -18,6 +18,7 @@ urlpatterns = [
     path('dashboard/barang_keluar/', views.DataBarangKeluarListView.as_view(), name='data_barang_keluar'),
     path('dashboard/data_barang_keluar/', views.BarangKeluarListView.as_view(), name='barang_keluar'),
     path('dashboard/data_barang_masuk/', views.BarangMasukListView.as_view(), name='barang_masuk'),
+    path('dashboard/data_entri_barang_masuk/', views.DataEntriBarangMasukListView.as_view(), name='data_entri_barang_masuk'),
     path('dashboard/barang/<int:id_barang>/keluar', views.BarangKeluarCreateView.as_view(), name='keluar_barang'),
     path('dashboard/pinjam/', views.PeminjamanListView.as_view(), name='pinjam'),
     path('dashboard/data_pinjam/', views.DataPinjamBarangListView.as_view(), name='data_barang_pinjam'),
