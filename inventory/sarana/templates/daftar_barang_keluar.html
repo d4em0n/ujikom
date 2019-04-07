@@ -1,0 +1,59 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<span class="is-small has-text-danger" style="font-size: 9pt;margin-left:11px">Silakan pilih barang untuk dikeluarkan</span>
+<div class="card events-card">
+    <header class="card-header">
+        <h1 class="card-header-title">
+            Daftar Data Barang
+        </h1>
+        <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
+    </header>
+    <div class="card-content" style="padding:10px">
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Cari Barang">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+    </div>
+
+    <div class="card-table">
+        <div class="content">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="table-barang">
+            <thead>
+                <tr>
+                <th>ID Barang</th>
+                <th>Nama</th>
+                <th>Spesifikasi</th>
+                <th>Lokasi</th>
+                <th>Kondisi</th>
+                <th>Sumber Dana</th>
+                <th>Jumlah</th>
+                <!--<th><input type="checkbox" id="data-barang-check-all"></th>-->
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for barang in daftar_barang %}
+                <tr class="data-barang-item" id="barang-item-{{ barang.id_barang }}">
+                <td>{{ barang.id_barang }}</td>
+                <td>{{ barang.nama_barang }}</td>
+                <td>{{ barang.spesifikasi }}</td>
+                <td>{{ barang.lokasi }}</td>
+                <td>{{ barang.get_kondisi_display }}</td>
+                <td>{{ barang.sumber_dana }}</td>
+                <td>{{ barang.jumlah_barang }}</td>
+                <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
+                <td><a href="{% url 'keluar_barang' barang.id_barang %}"><button class="button is-small is-success has-text-white">Pilih</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

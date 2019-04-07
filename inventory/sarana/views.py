@@ -147,6 +147,11 @@ class PeminjamanListView(GroupRequiredMixin, generic.ListView):
     template_name = 'data_pinjam.html'
     context_object_name = 'data_pinjam'
 
+class DataBarangKeluarListView(GroupRequiredMixin, generic.ListView):
+    model = Barang
+    group_required = ["Manajemen", "Administrator"]
+    template_name = 'daftar_barang_keluar.html'
+    context_object_name = 'daftar_barang'
 
 class DataPinjamBarangListView(GroupRequiredMixin, generic.ListView):
     model = Barang
