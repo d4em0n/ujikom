@@ -21,6 +21,7 @@ class DashboardView(GroupRequiredMixin, generic.View):
         context.update(Barang.objects.aggregate(total_barang=Sum('jumlah_barang')))
         context.update({'total_user': User.objects.count()})
         context.update({'user_full_name': request.user.get_full_name() or request.user.username })
+        context.update({'request': request})
         return context
     
     def get(self, request, *args, **kwargs):

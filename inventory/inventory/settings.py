@@ -70,6 +70,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins': [
+                'django.contrib.staticfiles.templatetags.staticfiles',
+                'sarana.templatetags.has_group_tags'
+            ],
         },
     },
 ]
