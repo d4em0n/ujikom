@@ -12,7 +12,7 @@ def index(request):
 
 class DashboardView(GroupRequiredMixin, generic.View):
     template_name = 'admin.html'
-    group_required = ["Manajemen", "Administrator"]
+    group_required = ["Manajemen", "Administrator", "Peminjam"]
     
     def get_context_data(self, request, **kwargs):
         context = dict() 
@@ -71,9 +71,15 @@ class BarangMasukCreateView(GroupRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         form.save()
-        stok = StokBarang(total_stok=form.instance.jumlah_barang, jml_masuk=form.instance.jumlah_barang, jml_keluar=0, jml_dipinjam=0, barang=form.instance)
+        stok = StokBarang(total_stok=form.instance.jumlah_barang, 
+                          jml_masuk=form.instance.jumlah_barang, 
+                          jml_keluar=0, 
+                          jml_dipinjam=0, 
+                          barang=form.instance)
         suplier = Suplier.objects.get(id_suplier=self.kwargs['id_suplier'])
-        barang_masuk = BarangMasuk(barang=form.instance, jml_masuk=form.instance.jumlah_barang, suplier=suplier)
+        barang_masuk = BarangMasuk(barang=form.instance, 
+                                   jml_masuk=form.instance.jumlah_barang, 
+                                   suplier=suplier)
         stok.save()
         barang_masuk.save()
         return super(BarangMasukCreateView, self).form_valid(form)
