@@ -243,3 +243,9 @@ class PeminjamanDeleteView(GroupRequiredMixin, generic.DeleteView):
         stok.jml_dipinjam -= self.object.jml_dipinjam
         stok.save()
         return super(PeminjamanDeleteView, self).delete(*args, **kwargs)
+
+class BarangKeluarListView(GroupRequiredMixin, generic.ListView):
+    model = BarangKeluar
+    group_required = ["Manajemen", "Administrator"]
+    context_object_name = 'data_barang_keluar'
+    template_name = 'data_barang_keluar.html'
