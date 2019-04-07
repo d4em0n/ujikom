@@ -60,11 +60,13 @@
                         {% url 'pinjam' as pinjam_url %}
                         {% url 'suplier' as suplier_url %}
                         {% url 'barang_keluar' as barang_keluar_url %}
+                        {% url 'barang_masuk' as barang_masuk_url %}
                         <li><a href="{% url 'dashboard' %}" {% if request.path == dashboard_url %}class="is-active"{% endif %}>Dashboard</a></li>
                         <li><a href="{% url 'barang' %}" {% if request.path == barang_url %}class="is-active"{% endif %}>Data Barang</a></li>
                         <li><a href="{% url 'pinjam' %}" {% if request.path == pinjam_url %}class="is-active"{% endif %}>Data Peminjaman Barang</a></li>
                         <li><a href="{% url 'suplier' %}" {% if request.path == suplier_url %}class="is-active"{% endif %}>Data Suplier</a></li>
                         <li><a href="{% url 'barang_keluar' %}" {% if request.path == barang_keluar_url %}class="is-active"{% endif %}>Data Barang Keluar</a></li>
+                        <li><a href="{% url 'barang_masuk' %}" {% if request.path == barang_masuk_url %}class="is-active"{% endif %}>Data Barang Masuk</a></li>
                     </ul>
                     <p class="menu-label">
                         Administration

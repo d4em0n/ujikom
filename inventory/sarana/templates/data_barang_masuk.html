@@ -1,0 +1,97 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<style>
+#tombol {
+    margin: 5px 0;
+    text-align: right;
+}
+</style>
+
+<div id="tombol">
+    <a class="is-small button is-link" onclick="exportTableToExcel('table-masuk', 'data-barang-masuk')">Generate Laporan</a>
+    <a class="is-small button is-success" href="{% url 'barang_masuk' %}">Tambah Data Barang Masuk</a>
+</div>
+<div class="card events-card">
+    <header class="card-header">
+        <h1 class="card-header-title">
+            Daftar Data Barang Masuk
+        </h1>
+        <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
+    </header>
+    <div class="card-content" style="padding:10px">
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Cari Suplier">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+    </div>
+
+    <div class="card-table">
+        <div class="content">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="table-masuk">
+            <thead>
+                <tr>
+                <th>ID Suplier</th>
+                <th>Nama Suplier</th>
+                <th>ID Barang</th>
+                <th>Nama Barang</th>
+                <th>Tanggal Masuk</th>
+                <th>Jumlah Masuk</th>
+                <!--<th><input type="checkbox" id="data-barang-check-all"></th>-->
+                </tr>
+            </thead>
+            <tbody>
+                {% for barang_masuk in data_barang_masuk %}
+                <tr class="data-barang-item" id="barang-item-{{ barang.id_barang }}">
+                <td>{{ barang_masuk.suplier.id_suplier }}</td>
+                <td>{{ barang_masuk.suplier.nama }}</td>
+                <td>{{ barang_masuk.barang.id_barang }}</td>
+                <td>{{ barang_masuk.barang.nama_barang }}</td>
+                <td>{{ barang_masuk.tgl_masuk }}</td>
+                <td>{{ barang_masuk.jml_masuk }}</td>
+                <!--<td><input type="checkbox" class="data-barang-item-check"></td>-->
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+</script>
+{% endblock %}

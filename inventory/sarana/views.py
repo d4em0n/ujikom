@@ -249,3 +249,9 @@ class BarangKeluarListView(GroupRequiredMixin, generic.ListView):
     group_required = ["Manajemen", "Administrator"]
     context_object_name = 'data_barang_keluar'
     template_name = 'data_barang_keluar.html'
+
+class BarangMasukListView(GroupRequiredMixin, generic.ListView):
+    model = BarangMasuk
+    group_required = ["Manajemen", "Administrator"]
+    context_object_name = 'data_barang_masuk'
+    template_name = 'data_barang_masuk.html'
