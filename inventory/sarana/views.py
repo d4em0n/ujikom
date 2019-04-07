@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Barang, PinjamBarang, StokBarang, Suplier, BarangMasuk, BarangKeluar
+from .models import Barang, PinjamBarang, StokBarang, Suplier, BarangMasuk, BarangKeluar, User
 from .mixins import GroupRequiredMixin
 from .forms import BarangCreateForm, PeminjamanCreateForm, SuplierCreateForm, BarangKeluarCreateForm
 from django.urls import reverse_lazy, reverse
+from django.db.models import Sum
 
 # Create your views here.
 def index(request):
@@ -11,6 +12,22 @@ def index(request):
 
 def dashboard(request):
     return render(request, 'admin.html')
+
+class DashboardView(GroupRequiredMixin, generic.View):
+    template_name = 'admin.html'
+    group_required = ["Manajemen", "Administrator"]
+    
+    def get_context_data(self, **kwargs):
+        context = dict() 
+        context.update(BarangKeluar.objects.aggregate(total_keluar=Sum('jml_keluar')))
+        context.update(BarangMasuk.objects.aggregate(total_masuk=Sum('jml_masuk')))
+        context.update(Barang.objects.aggregate(total_barang=Sum('jumlah_barang')))
+        context.update({'total_user': User.objects.count()})
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
 
 class SuplierListView(GroupRequiredMixin, generic.ListView):
     model = Suplier
